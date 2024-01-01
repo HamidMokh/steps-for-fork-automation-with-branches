@@ -1,0 +1,30 @@
+ #!/bin/bash
+
+# Set your forked repository URL
+forked_repo="https://github.com/HamidMokh/crwn-clothing-v2.git"
+
+# Set the remote repository URL
+remote_repo="https://github.com/ZhangMYihua/crwn-clothing-v2.git"
+
+# Clone your forked repository
+git clone $forked_repo
+
+# Change into the cloned repository directory
+cd crwn-clothing-v2
+
+# Add the remote repository with the URL of the original repository
+git remote add upstream $remote_repo
+
+# Fetch branches from the remote repository
+git fetch upstream
+
+# Get a list of all remote branches
+remote_branches=$(git branch -r | grep -v '\->' | awk -F '/' '{print $2}')
+
+# Loop through each remote branch and create a local branch tracking the remote branch
+for branch in $remote_branches; do
+    git checkout -b $branch --track upstream/$branch
+done
+
+# Print a message indicating the process is complete
+echo "All branches fetched and checked out successfully!"
