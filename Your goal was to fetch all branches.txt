@@ -1,0 +1,69 @@
+Your goal was to fetch all branches from the original repository (https://github.com/ZhangMYihua/crwn-clothing-v2.git) into your forked repository (https://github.com/HamidMokh/crwn-clothing-v2.git) on GitHub.
+
+Here's a step-by-step explanation of how we achieved this:
+
+1. **Forking the Repository:**
+   - You forked the original repository (upstream) into your GitHub account, creating your forked repository.
+
+2. **Cloning the Forked Repository:**
+   - You cloned your forked repository (`https://github.com/HamidMokh/crwn-clothing-v2.git`) to your local machine using the command:
+     ```bash
+     git clone https://github.com/HamidMokh/crwn-clothing-v2.git
+     ```
+
+3. **Adding Upstream Remote:**
+   - You added the original repository as a remote named `upstream` using the command:
+     ```bash
+     git remote add upstream https://github.com/ZhangMYihua/crwn-clothing-v2.git
+     ```
+
+4. **Fetching Branches:**
+   - You fetched all branches from the original repository using the command:
+     ```bash
+     git fetch upstream
+     ```
+
+5. **Creating Local Branches:**
+   - You looped through each remote branch, creating a local branch that tracks the remote branch using the following script:
+     ```bash
+     #!/bin/bash
+
+     # Set your forked repository URL
+     forked_repo="https://github.com/HamidMokh/crwn-clothing-v2.git"
+
+     # Set the remote repository URL
+     remote_repo="https://github.com/ZhangMYihua/crwn-clothing-v2.git"
+
+     # Clone your forked repository
+     git clone $forked_repo
+
+     # Change into the cloned repository directory
+     cd crwn-clothing-v2
+
+     # Add the remote repository with the URL of the original repository
+     git remote add upstream $remote_repo
+
+     # Fetch branches from the remote repository
+     git fetch upstream
+
+     # Get a list of all remote branches
+     remote_branches=$(git branch -r | grep -v '\->' | awk -F '/' '{print $2}')
+
+     # Loop through each remote branch and create a local branch tracking the remote branch
+     for branch in $remote_branches; do
+         git checkout -b $branch --track upstream/$branch
+     done
+
+     # Print a message indicating the process is complete
+     echo "All branches fetched and checked out successfully!"
+     ```
+
+   - This script automates the process of creating local branches for all remote branches.
+
+6. **Executing the Script:**
+   - You executed the script by saving it to a file (e.g., `fetch-branches.sh`) and running it in the terminal.
+
+7. **Result:**
+   - All branches from the original repository were fetched, and local branches tracking each of them were created in your forked repository.
+
+In summary, the provided script automates the process of fetching and creating local branches for all branches from the original repository, streamlining the workflow and saving time compared to manually creating each branch.
